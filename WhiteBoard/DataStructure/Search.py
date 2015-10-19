@@ -26,3 +26,35 @@ class Search(object):
                     else:
                         i_high = i_mid-1
         return i_rtPosition
+    
+    
+    def SelectionSearch(self, list_input, m_bigK):
+        #Also know as the Selection Problem
+        #Input: list and specified position k, Output: value of k-th biggest in array, but return None if no found or k grater list length
+        #Core idea:Gather front k elements of the input list in a new list (non-sort), sort from large to small, compare rest of elements
+        #if grater then kth in the new list->insert to the proper position and kick out the last one(the original kth element), if less or equal then pass
+        #Return the latest kth element in final
+        
+        #TBM: insert and pop must be replaced with no-BIF way
+        i_rtVal = None
+        i_lenList = len(list_input)
+        
+        if i_lenList==0 or m_bigK>i_lenList:
+            pass
+        else:
+            list_tmpSub = []
+            #Gather front k elements of the input list in a new list
+            for each_id in range(m_bigK):
+                list_tmpSub.append(list_input[each_id])
+            #Sort from large to small
+            list_tmpSub.sort(reverse=True)
+            for each_id in range(m_bigK,i_lenList):
+                #If grater then kth in the new list->insert to the proper position and kick out the last one
+                if list_input[each_id]>list_tmpSub[m_bigK-1]:
+                    for each_sub in range(m_bigK):
+                        if list_input[each_id]>list_tmpSub[each_sub]:
+                            list_tmpSub.insert(each_sub, list_input[each_id])
+                            list_tmpSub.pop()
+                            break
+            i_rtVal = list_tmpSub[m_bigK-1]
+        return i_rtVal
